@@ -58,3 +58,24 @@ func TestMergeSort(t *testing.T) {
 		})
 	}
 }
+
+func TestMergeSortConcurrent(t *testing.T) {
+	mergeSortArraysTests := []struct {
+		name     string
+		source   []int
+		expected []int
+	}{
+		{name: "basic test", source: []int{8, 4, 6, 2, 1, 6, 9}, expected: []int{1, 2, 4, 6, 6, 8, 9}},
+		{name: "empty", source: []int{}, expected: []int{}},
+		{name: "negative numbers", source: []int{-8, -4, -6, -2, -1, -6, -9}, expected: []int{-9, -8, -6, -6, -4, -2, -1}},
+		{name: "both positive and negative", source: []int{-8, 4, -6, 2, -1, 6, 9}, expected: []int{-8, -6, -1, 2, 4, 6, 9}},
+	}
+	for _, tt := range mergeSortArraysTests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := MergeSortConcurrent(tt.source)
+			if !Equal(got, tt.expected) {
+				t.Errorf("failed in test %q", tt.name)
+			}
+		})
+	}
+}
